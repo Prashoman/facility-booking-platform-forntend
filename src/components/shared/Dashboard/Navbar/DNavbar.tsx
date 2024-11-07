@@ -1,19 +1,19 @@
-
+import { Link } from "react-router-dom";
+import Logo from "../../../../assets/images/logo.png";
 
 const DNavbar = () => {
   return (
-    <div className="navbar bg-base-100">
-      <div className="flex-1">
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+    <div className="bg-neutral text-neutral-content px-20 flex items-center justify-between ">
+      <div >
+        <Link
+          to={"/"}
+          className="flex items-center space-x-3 rtl:space-x-reverse"
+        >
+          <img className="h-[50px] w-[150px]" src={Logo} alt="" />
+        </Link>
       </div>
       <div className="flex-none gap-2">
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered w-24 md:w-auto"
-          />
-        </div>
+        
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
@@ -31,16 +31,16 @@ const DNavbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <li>
+            <li className="text-black">
               <a className="justify-between">
                 Profile
                 <span className="badge">New</span>
               </a>
             </li>
-            <li>
+            <li className="text-black">
               <a>Settings</a>
             </li>
-            <li>
+            <li className="text-black">
               <a>Logout</a>
             </li>
           </ul>
