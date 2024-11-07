@@ -1,8 +1,27 @@
 import { Link } from "react-router-dom";
 import LoginImage from "../../../assets/images/login.jpg";
 import Input from "../../shared/InputFields/Input";
+import SFForm from "../../shared/Form/SFForm";
+import { useForm } from "react-hook-form";
+import { useLoginMutation } from "../../../redux/features/auth/authApi";
 
 const LoginPage = () => {
+  const [login, {  error, isLoading }] = useLoginMutation();
+  const {reset} = useForm();
+  const handleLoginSubmit = (data: any) => {
+    console.log(data);
+    const userInfo ={
+      email: data.email,
+      password: data.password
+    }
+   const loginResponse = login(userInfo);
+    loginResponse.unwrap().then((res) => {
+      console.log(res);
+      reset();
+    }
+    );
+   
+  };
   return (
     <div className="flex items-center justify-between px-28">
       <div className="w-[50%]">
@@ -10,20 +29,22 @@ const LoginPage = () => {
       </div>
       <div className="shadow-gray-700 border py-10 px-4 w-[50%] rounded">
         <h1 className="text-center text-[25px] font-medium font-serif">
-          Log in
+          Login
         </h1>
-        <form>
+        <SFForm onSubmit={handleLoginSubmit}>
           <Input
             label="Email"
             name="email"
             placeholder="Enter your email"
             type="email"
+            required={true}
           />
           <Input
             label="Password"
             name="password"
             placeholder="Enter your password"
             type="password"
+            required={true}
           />
           <button
             type="submit"
@@ -31,7 +52,7 @@ const LoginPage = () => {
           >
             Log in
           </button>
-        </form>
+        </SFForm>
         <div>
           <p className="text-center mt-4">
             Don't have an account?{" "}

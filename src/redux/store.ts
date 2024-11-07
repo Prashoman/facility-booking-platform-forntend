@@ -5,13 +5,11 @@ import { baseApi } from './api/baseApi';
 
 export const store = configureStore({
   reducer: {
-    baseApi: baseApi.reducer,
+    [baseApi.reducerPath]: baseApi.reducer,
     auth:authReducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+    getDefaultMiddleware().concat(baseApi.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
