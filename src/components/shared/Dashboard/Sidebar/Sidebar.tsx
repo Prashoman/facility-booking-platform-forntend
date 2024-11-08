@@ -1,6 +1,8 @@
-
-
+import { currentUser, logOut } from "../../../../redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 const Sidebar = () => {
+    const dispatch = useAppDispatch();
+    const userInfo = useAppSelector(currentUser);
     return (
         <div>
             <div className="bg-gray-500 w-full h-screen">
@@ -13,8 +15,8 @@ const Sidebar = () => {
                         />
                     </div>
                     <div className="text-center text-white">
-                        <h1 className="text-lg font-bold">John Doe</h1>
-                        <p className="text-sm">Admin</p>
+                        <h1 className="text-lg font-bold">{userInfo?.name}</h1>
+                        <p className="text-sm">{userInfo?.role}</p>
                     </div>
                 </div>
                 <div className="divider">OR</div>
@@ -37,7 +39,9 @@ const Sidebar = () => {
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="block text-white p-2 hover:bg-gray-600">
+                                <a onClick={()=>{
+                                    dispatch(logOut())
+                                }} className="block text-white p-2 hover:bg-gray-600 cursor-pointer">
                                     Logout
                                 </a>
                             </li>

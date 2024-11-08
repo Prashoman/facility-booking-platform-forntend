@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { TUser } from '../../../components/ui/LoginPage/LoginPage'
+import { RootState } from '../../store'
 
 type TInitialState = {
     user: null | TUser,
@@ -31,3 +32,6 @@ export const authSlice = createSlice({
   
   export const { setUser, logOut } = authSlice.actions
   export default authSlice.reducer
+
+  export const currentUser = (state:RootState) => state.auth.user;
+  export const currentToken = (state:RootState) => state.auth.token;

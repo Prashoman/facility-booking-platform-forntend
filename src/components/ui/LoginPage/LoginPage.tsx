@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginImage from "../../../assets/images/login.jpg";
 import Input from "../../shared/InputFields/Input";
 import SFForm from "../../shared/Form/SFForm";
-import { useForm } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import { useLoginMutation } from "../../../redux/features/auth/authApi";
 import { useAppDispatch } from "../../../redux/hooks";
 import { setUser } from "../../../redux/features/auth/authSlice";
+import { toast } from "sonner";
 
 export interface TUser {
   _id: string
@@ -20,25 +21,28 @@ export interface TUser {
 }
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [login, {  error, isLoading }] = useLoginMutation();
+  const [login, {  error }] = useLoginMutation();
   // const {reset} = useForm();
-  const handleLoginSubmit = async (data: any) => {
-    console.log(data);
-    const userInfo ={
+  const handleLoginSubmit = async (data: FieldValues) => {
+   const toastId= toast.loading("Logging in...");
+        const userInfo ={
       email: data.email,
       password: data.password
     }
    const loginResponse = await login(userInfo).unwrap();
    const user:TUser | null = loginResponse.data;
+  //  console.log("user info",loginResponse.data)
+
    dispatch(setUser({
     user,
     token:loginResponse.token
    }));
-   console.log(loginResponse);
+   navigate(`/dashboard/${user?.role}`)
+   toast.success("Login successful",{id:toastId});
+   console.log("login error",error);
    
-
-    
    
   };
   return (
