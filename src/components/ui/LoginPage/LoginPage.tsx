@@ -7,43 +7,51 @@ import { useLoginMutation } from "../../../redux/features/auth/authApi";
 import { useAppDispatch } from "../../../redux/hooks";
 import { setUser } from "../../../redux/features/auth/authSlice";
 import { toast } from "sonner";
+import { TError } from "../../../utils/type/error";
 
 export interface TUser {
-  _id: string
-  name: string
-  email: string
-  phone: string
-  role: string
-  address: string
-  createdAt: string
-  updatedAt: string
-  __v: number
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  address: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [login, {  error }] = useLoginMutation();
+  const [login] = useLoginMutation();
   // const {reset} = useForm();
   const handleLoginSubmit = async (data: FieldValues) => {
-   const toastId= toast.loading("Logging in...");
-        const userInfo ={
-      email: data.email,
-      password: data.password
-    }
-   const loginResponse = await login(userInfo).unwrap();
-   const user:TUser | null = loginResponse.data;
-  //  console.log("user info",loginResponse.data)
+    const toastId = toast.loading("Logging in...");
 
-   dispatch(setUser({
-    user,
-    token:loginResponse.token
-   }));
-   navigate(`/dashboard/${user?.role}`)
-   toast.success("Login successful",{id:toastId});
-   console.log("login error",error);
-   
-   
+    try {
+      const userInfo = {
+        email: data.email,
+        password: data.password,
+      };
+      const loginResponse = await login(userInfo).unwrap();
+      const user: TUser | null = loginResponse.data;
+      dispatch(
+        setUser({
+          user,
+          token: loginResponse.token,
+        })
+      );
+      navigate(`/dashboard/${user?.role}`);
+      toast.success("Login successful", { id: toastId });
+    } catch (error) {
+      // console.log("error", error); 
+      const errorMes = error as TError;
+        toast.error(errorMes?.data?.message, { id: toastId });
+      // } else {
+      //   toast.error("Somethings went wrong!", { id: toastId });
+      // }
+    }
   };
   return (
     <div className="flex items-center justify-between px-28">
