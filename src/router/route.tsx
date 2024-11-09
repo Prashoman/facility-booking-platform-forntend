@@ -4,6 +4,9 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
  import LayoutDashboard from "../pages/Dashboard/LayoutDashboard/LayoutDashboard";
 import Welcome from "../pages/Dashboard/common/Welcome/Welcome";
+import Facility from "../pages/Dashboard/Admin/Facility/Facility";
+import AddFacility from "../pages/Dashboard/Admin/Facility/AddFacility";
+import EditFacility from "../pages/Dashboard/Admin/Facility/EditFacility";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +34,18 @@ const router = createBrowserRouter([
       {
         path: "admin",
         element: <Welcome/>,
+      },
+      {
+        path: "admin/facility",
+        element: <Facility/>,
+      },
+      {
+        path: "facility/add",
+        element: <AddFacility/>,
+      },
+      {
+        path: "facility/edit/:facilityId",
+        element: <EditFacility/>,
       },
       {
         path: "user",
