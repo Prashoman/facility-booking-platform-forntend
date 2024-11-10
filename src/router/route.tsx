@@ -9,6 +9,7 @@ import AddFacility from "../pages/Dashboard/Admin/Facility/AddFacility";
 import EditFacility from "../pages/Dashboard/Admin/Facility/EditFacility";
 import Admin from "../pages/Dashboard/Admin/AdminMang/Admin";
 import AddAdmin from "../pages/Dashboard/Admin/AdminMang/AddAdmin";
+import Home from "../pages/Home/Home";
 
 
 const router = createBrowserRouter([
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Home</h1>,
+        element: <Home/>,
       },
       {
         path: "/login",
