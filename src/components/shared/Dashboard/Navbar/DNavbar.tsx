@@ -3,13 +3,13 @@ import Logo from "../../../../assets/images/logo.png";
 
 const DNavbar = () => {
   return (
-    <div className="bg-neutral text-neutral-content px-20 flex items-center justify-between ">
+    <div className="bg-neutral text-neutral-content px-4 lg:px-20 flex items-center justify-between ">
       <div >
         <Link
           to={"/"}
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
-          <img className="h-[50px] w-[150px]" src={Logo} alt="" />
+          <img className="h-[30px] w-[80px] lg:h-[50px] lg:w-[150px]" src={Logo} alt="" />
         </Link>
       </div>
       <div className="flex-none gap-2">

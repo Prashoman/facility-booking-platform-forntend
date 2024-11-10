@@ -9,10 +9,10 @@ const LayoutDashboard = () => {
       <TokenBasePrivateRoute>
         <DNavbar />
         <div className="flex h-full">
-          <div className="w-[25%] min-h-screen">
+          <div className="hidden lg:block w-[25%] min-h-screen">
             <Sidebar />
           </div>
-          <div className="w-[75%]  px-4 py-10">
+          <div className="w-full lg:w-[75%]  px-4 py-10">
             <Outlet />
           </div>
         </div>

@@ -29,7 +29,7 @@ const RegisterPage = () => {
       toast.success(regResponse?.message, { id: tostId });
       navigate("/login");
     } catch (error) {
-      console.log("error", error);
+      // console.log("error", error);
 
       const errorMes = error as TError;
       toast.error(errorMes?.data?.message, { id: tostId });

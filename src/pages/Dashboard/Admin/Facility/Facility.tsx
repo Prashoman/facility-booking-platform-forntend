@@ -35,7 +35,7 @@ const Facility = () => {
   return (
     <div>
       <div className="w-full flex justify-end pb-4">
-        <Link to={"/dashboard/facility/add"} className="btn btn-sm btn-success">
+        <Link to={"/dashboard/facility/add"} className="btn btn-sm btn-success text-white">
           Add Facility
         </Link>
       </div>

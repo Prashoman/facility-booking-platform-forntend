@@ -61,6 +61,18 @@ const Sidebar = () => {
                       Facility
                     </Link>
                   </li>
+                  <li>
+                    <Link
+                      to={`/dashboard/${userRole}/admin`}
+                      className={`block rounded text-white p-2 hover:bg-gray-600 ${
+                        currentPathname === `/dashboard/${userRole}/admin`
+                          ? "bg-blue-400"
+                          : ""
+                      }`}
+                    >
+                      Admin
+                    </Link>
+                  </li>
                 </>
               ) : (
                 <>

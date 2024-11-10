@@ -7,6 +7,9 @@ import Welcome from "../pages/Dashboard/common/Welcome/Welcome";
 import Facility from "../pages/Dashboard/Admin/Facility/Facility";
 import AddFacility from "../pages/Dashboard/Admin/Facility/AddFacility";
 import EditFacility from "../pages/Dashboard/Admin/Facility/EditFacility";
+import Admin from "../pages/Dashboard/Admin/AdminMang/Admin";
+import AddAdmin from "../pages/Dashboard/Admin/AdminMang/AddAdmin";
+
 
 const router = createBrowserRouter([
   {
@@ -38,6 +41,14 @@ const router = createBrowserRouter([
       {
         path: "admin/facility",
         element: <Facility/>,
+      },
+      {
+        path: "admin/admin",
+        element: <Admin/>,
+      },
+      {
+        path: "admin/add",
+        element: <AddAdmin/>,
       },
       {
         path: "facility/add",
