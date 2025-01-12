@@ -17,11 +17,13 @@ const facilityApi = baseApi.injectEndpoints({
       providesTags: ["facility"],
     }),
     createFacility: builder.mutation({
-      query: (facilityInfo) => ({
-        url: "/facility",
-        method: "POST",
-        body: facilityInfo,
-      }),
+      query: (facilityInfo) => {
+        return {
+          url: "/facility",
+          method: "POST",
+          body: facilityInfo,
+        };
+      },
       invalidatesTags: ["facility"],
     }),
     updateFacility: builder.mutation({

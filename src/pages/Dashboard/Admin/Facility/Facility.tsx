@@ -6,9 +6,10 @@ import {
 import { TFacility } from "../../../../utils/type/Facility";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
+import TableSkeleton from "../../../../components/shared/TableSkeleton/TableSkeleton";
 
 const Facility = () => {
-  const { data: facilities } = useGetFacilitiesQuery(undefined);
+  const { data: facilities, isLoading } = useGetFacilitiesQuery(undefined);
   const [deleteFacility] = useDeleteFacilityMutation();
   const handleDelete = async (facilityId: string) => {
     Swal.fire({
@@ -35,7 +36,10 @@ const Facility = () => {
   return (
     <div>
       <div className="w-full flex justify-end pb-4">
-        <Link to={"/dashboard/facility/add"} className="btn btn-sm btn-success text-white">
+        <Link
+          to={"/dashboard/facility/add"}
+          className="btn btn-sm btn-success text-white"
+        >
           Add Facility
         </Link>
       </div>
@@ -54,7 +58,16 @@ const Facility = () => {
             </tr>
           </thead>
           <tbody>
-            {facilities?.data?.length > 0 ? (
+            {isLoading ? (
+              // Skeleton Loader for Table Rows
+              Array.from({ length: 5 }).map((_, index) => (
+                <tr key={index}>
+                  <td colSpan={6} className="text-center">
+                    <TableSkeleton />
+                  </td>
+                </tr>
+              ))
+            ) : facilities?.data?.length > 0 ? (
               facilities?.data?.map((facility: TFacility, index: number) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
@@ -77,7 +90,6 @@ const Facility = () => {
                       >
                         Edit
                       </Link>
-
                       <button
                         onClick={() => {
                           handleDelete(facility._id);

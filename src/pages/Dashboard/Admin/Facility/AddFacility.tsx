@@ -2,9 +2,12 @@ import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useCreateFacilityMutation } from "../../../../redux/features/facility/facilityApi";
 import { toast } from "sonner";
+import { useState } from "react";
 
 const AddFacility = () => {
+  const [image, setImage] = useState<File | null>(null);
   const navigate = useNavigate();
+
   const [facilityInsert] = useCreateFacilityMutation();
   const {
     register,
@@ -14,25 +17,39 @@ const AddFacility = () => {
 
   const handleFacilitySubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Adding Facility loading...");
-    
-    const {name,image,location,description,pricePerHour} = data;
-    
+
+    const { name, location, description, pricePerHour } = data;
+
     try {
-      const facilityInfo = {
-        name,
-        image,
-        location,
-        description,
-        pricePerHour: parseInt(pricePerHour),
-      };
-      const facilityResponse = await facilityInsert(facilityInfo).unwrap();
-      console.log(facilityResponse);
-      toast.success("Facility added successfully", { id: toastId });
-      navigate("/dashboard/admin/facility");
-    } catch (error) {
-      console.log({ error });
+      const formData = new FormData();
+      formData.append("facilityImage", image as Blob);
+      formData.append(
+        "data",
+        JSON.stringify({
+          name,
+          location,
+          description,
+          pricePerHour: Number(pricePerHour),
+        })
+      );
+      const facilityResponse = await facilityInsert(formData).unwrap();
+      if (facilityResponse?.success) {
+        toast.success(facilityResponse?.message, { id: toastId });
+        navigate("/dashboard/admin/facility");
+      } else {
+        toast.success(facilityResponse?.message, { id: toastId });
+        navigate("/dashboard/admin/facility");
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message, { id: toastId });
+      } else {
+        toast.error("An unknown error occurred", { id: toastId });
+      }
     }
   };
+
+  // console.log({ errors });
 
   return (
     <div>
@@ -70,16 +87,28 @@ const AddFacility = () => {
                 Image
               </label>
               <input
-                type="text"
-                {...register("image", { required: "Image url is required" })}
+                type="file"
+                onChange={(e) => {
+                  if (e.target.files) {
+                    setImage(e.target.files[0]);
+                  }
+                }}
                 placeholder="Enter the image url"
                 id="image"
                 className="mt-1 border border-gray-600 outline-none px-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm  rounded-md py-2"
+                accept="image/*"
               />
               {errors.image && (
                 <p className="text-red-500 text-sm font-serif pt-1">
                   {errors.image?.message as string}
                 </p>
+              )}
+              {image && (
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt="facility"
+                  className="mt-2 h-32 w-32 object-cover"
+                />
               )}
             </div>
             <div className="mb-4">
