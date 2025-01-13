@@ -1,14 +1,17 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   useGetSingleFacilitiesQuery,
   useUpdateFacilityMutation,
 } from "../../../../redux/features/facility/facilityApi";
 import { TFacility } from "../../../../utils/type/Facility";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { FacilityEditValidation } from "./Validation";
 
 const EditFacility = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [singleImage, setSingleImage] = useState<File | null>(null);
   const { facilityId } = useParams();
   const [errors, setErrors] = useState<Partial<TFacility>>({
     name: "",
@@ -17,105 +20,97 @@ const EditFacility = () => {
     location: "",
     description: "",
   });
-  // console.log({ errors });
+  const [formValues, setFormValues] = useState<Partial<TFacility>>({
+    name: "",
+    image: "",
+    pricePerHour: "",
+    location: "",
+    description: "",
+  });
 
-  const validationFields = (
-    name: string,
-    pricePerHour: number,
-    location: string,
-    description: string
-  ) => {
-    if (!name) {
-      setErrors((prev) => ({ ...prev, name: "Name is required" }));
-      return false;
-    } else {
-      setErrors((prev) => ({ ...prev, name: "" }));
-    }
-
-    if (!pricePerHour) {
-      setErrors((prev) => ({
-        ...prev,
-        pricePerHour: "Price per hour is required",
-      }));
-      return false;
-    } else {
-      setErrors((prev) => ({ ...prev, pricePerHour: 0 }));
-    }
-    if (!location) {
-      setErrors((prev) => ({ ...prev, location: "Location is required" }));
-      return false;
-    } else {
-      setErrors((prev) => ({ ...prev, location: "" }));
-    }
-    if (!description) {
-      setErrors((prev) => ({
-        ...prev,
-        description: "Description is required",
-      }));
-      return false;
-    } else {
-      setErrors((prev) => ({ ...prev, description: "" }));
-    }
-    return true;
-  };
-
-  const { data: singleFacility } = useGetSingleFacilitiesQuery(facilityId);
-
-  const facility: TFacility = singleFacility?.data;
   const [updatedFacilityQuery] = useUpdateFacilityMutation();
+
+  const {
+    data: singleFacility,
+    error,
+    isLoading,
+  } = useGetSingleFacilitiesQuery(facilityId!, {
+    skip: !facilityId,
+  });
+
+  if (error) {
+    toast.error("Error fetching facility details");
+    return null;
+  }
+
+  if (!isLoading && !singleFacility?.success) {
+    toast.error("Facility not found");
+    return null;
+  }
+  const facility: TFacility = singleFacility?.data;
+  useEffect(() => {
+    if (singleFacility?.success) {
+      setFormValues({
+        name: singleFacility.data.name,
+        image: singleFacility.data.image,
+        pricePerHour: singleFacility.data.pricePerHour,
+        location: singleFacility.data.location,
+        description: singleFacility.data.description,
+      });
+    }
+  }, [facilityId, singleFacility]);
 
   const handleEditFacility = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const toastId = toast.loading("Updating Facility loading....");
-    // console.log("Edit Facility");
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get("name") as string;
-    const image = formData.get("image") as string;
-    const pricePerHour = formData.get("pricePerHour") as string;
-    const location = formData.get("location") as string;
-    const description = formData.get("description") as string;
+    const name = formValues.name;
+    const pricePerHour = formValues.pricePerHour;
+    const location = formValues.location;
+    const description = formValues.description;
 
-    const validationReturn = validationFields(
+    const validation = FacilityEditValidation(
       name,
-      +pricePerHour,
+      pricePerHour,
       location,
-      description
+      description,
+      setErrors
     );
-    if (!validationReturn) return;
+    if (!validation) {
+      toast.error("Validation Error", { id: toastId });
+      return;
+    }
     try {
-      let updateFacility;
-
-      if (image) {
-        updateFacility = {
-          name,
-          image,
-          pricePerHour: +pricePerHour,
-          location,
-          description,
-        };
-      } else {
-        updateFacility = {
-          name,
-          pricePerHour: +pricePerHour,
-          location,
-          description,
-        };
-      }
-
-      const contentUpdtedInfo = {
-        id: facilityId,
-        updateFacility,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const updatedData: any = {
+        name,
+        pricePerHour: Number(pricePerHour),
+        location,
+        description,
       };
-
+      let uploadData = {};
+      const payload = new FormData();
+      if (singleImage) {
+        payload.append("facilityImage", singleImage);
+      }
+      payload.append("data", JSON.stringify(updatedData));
+      uploadData = {
+        id: facilityId,
+        updateFacility: payload,
+      };
       const updateFacilityResponse = await updatedFacilityQuery(
-        contentUpdtedInfo
+        uploadData
       ).unwrap();
-      console.log({ updateFacilityResponse });
-      toast.success("Facility updated successfully",{id:toastId});
-      navigate("/dashboard/admin/facility");
-    } catch (error) {
-      console.log({ error });
-      toast.error("Error updating facility");
+      // console.log({ updateFacilityResponse });
+      if (updateFacilityResponse?.success) {
+        toast.success(updateFacilityResponse?.message, { id: toastId });
+        navigate("/dashboard/admin/facility");
+      } else {
+        toast.error(updateFacilityResponse?.message, { id: toastId });
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error:any) {
+      // console.log({ error });
+      toast.error(error?.message, { id: toastId });
     }
   };
 
@@ -136,8 +131,10 @@ const EditFacility = () => {
               </label>
               <input
                 type="text"
-                defaultValue={facility?.name}
-                name="name"
+                value={formValues.name}
+                onChange={(e) =>
+                  setFormValues({ ...formValues, name: e.target.value })
+                }
                 id="name"
                 placeholder="Enter the name of the facility"
                 className="mt-1 border border-gray-600 outline-none px-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm  rounded-md py-2"
@@ -156,15 +153,27 @@ const EditFacility = () => {
                 Image
               </label>
               <div>
-                <img
-                  src={facility?.image}
-                  alt={facility?.name}
-                  className="w-20 h-20 object-cover"
-                />
+                {singleImage ? (
+                  <img
+                    src={URL.createObjectURL(singleImage)}
+                    alt={formValues?.name}
+                    className="w-20 h-20 object-cover"
+                  />
+                ) : (
+                  <img
+                    src={formValues?.image}
+                    alt={formValues?.name}
+                    className="w-20 h-20 object-cover"
+                  />
+                )}
               </div>
               <input
-                type="text"
-                name="image"
+                type="file"
+                onChange={(e) => {
+                  if (e.target.files?.length) {
+                    setSingleImage(e.target.files[0]);
+                  }
+                }}
                 placeholder="Enter the image url"
                 id="image"
                 className="mt-1 border border-gray-600 outline-none px-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm  rounded-md py-2"
@@ -179,7 +188,10 @@ const EditFacility = () => {
               </label>
               <input
                 type="text"
-                defaultValue={facility?.pricePerHour}
+                value={formValues.pricePerHour}
+                onChange={(e) =>
+                  setFormValues({ ...formValues, pricePerHour: e.target.value })
+                }
                 placeholder="Enter the price per hour"
                 name="pricePerHour"
                 id="PricePerHour"
@@ -200,7 +212,10 @@ const EditFacility = () => {
               </label>
               <input
                 type="text"
-                defaultValue={facility?.location}
+                value={formValues.location}
+                onChange={(e) =>
+                  setFormValues({ ...formValues, location: e.target.value })
+                }
                 name="location"
                 placeholder="Enter the location"
                 id="PricePerHour"
@@ -220,7 +235,10 @@ const EditFacility = () => {
                 Description
               </label>
               <textarea
-                defaultValue={facility?.description}
+                value={formValues.description}
+                onChange={(e) =>
+                  setFormValues({ ...formValues, description: e.target.value })
+                }
                 name="description"
                 placeholder="Enter the Facility Description"
                 className="mt-1 border border-gray-600 outline-none px-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm  rounded-md py-2"
