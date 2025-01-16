@@ -10,6 +10,8 @@ import EditFacility from "../pages/Dashboard/Admin/Facility/EditFacility";
 import Admin from "../pages/Dashboard/Admin/AdminMang/Admin";
 import AddAdmin from "../pages/Dashboard/Admin/AdminMang/AddAdmin";
 import Home from "../pages/Home/Home";
+import AllBookings from "../pages/Dashboard/Admin/AllBookings/AllBookings";
+import MyBookings from "../pages/Dashboard/User/MyBookings/MyBookings";
 
 
 const router = createBrowserRouter([
@@ -59,9 +61,20 @@ const router = createBrowserRouter([
         path: "facility/edit/:facilityId",
         element: <EditFacility/>,
       },
+      
+      {
+        path: "admin/all-bookings",
+        element: <AllBookings/>,
+      },
+
+      // user route start
       {
         path: "user",
         element: <Welcome/>,
+      },
+      {
+        path: "user/my-bookings",
+        element: <MyBookings/>,
       },
     ],
   },

@@ -111,7 +111,7 @@ const Facility = () => {
                     </Link>
                     <button
                       onClick={() => {
-                        handleDelete(facility._id);
+                        handleDelete(facility._id as string);
                       }}
                       className="btn btn-sm btn-danger"
                     >

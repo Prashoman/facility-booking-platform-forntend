@@ -3,9 +3,9 @@ import { baseApi } from "../../../api/baseApi";
 
 const bookingApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getAllBookings: builder.query({
+        getAllAdminBookings: builder.query({
           query: () => ({
-            url: "/facility",
+            url: "/bookings",
             method: "GET",
           }),
           providesTags: ["facility"],
@@ -42,3 +42,5 @@ const bookingApi = baseApi.injectEndpoints({
         }),
       }),
 })
+
+export const{ useGetAllAdminBookingsQuery } = bookingApi;

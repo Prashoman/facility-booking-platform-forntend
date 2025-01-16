@@ -73,16 +73,32 @@ const Sidebar = () => {
                       Admin
                     </Link>
                   </li>
+                  <li>
+                    <Link
+                      to={`/dashboard/${userRole}/all-bookings`}
+                      className={`block rounded text-white p-2 hover:bg-gray-600 ${
+                        currentPathname === `/dashboard/${userRole}/all-bookings`
+                          ? "bg-blue-400"
+                          : ""
+                      }`}
+                    >
+                      All Bookings
+                    </Link>
+                  </li>
                 </>
               ) : (
                 <>
                   <li>
-                    <a
-                      href="#"
-                      className="block text-white p-2 hover:bg-gray-600"
+                    <Link
+                      to={`/dashboard/${userRole}/my-bookings`}
+                      className={`block rounded text-white p-2 hover:bg-gray-600 ${
+                        currentPathname === `/dashboard/${userRole}/my-bookings`
+                          ? "bg-blue-400"
+                          : ""
+                      }`}
                     >
-                      User
-                    </a>
+                      My Bookings
+                    </Link>
                   </li>
                 </>
               )}
