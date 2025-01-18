@@ -16,6 +16,13 @@ const facilityApi = baseApi.injectEndpoints({
       }),
       providesTags: ["facility"],
     }),
+    getPopularFacilites: builder.query({
+      query: () => ({
+        url: "/popular/facility",
+        method: "GET",
+      }),
+      providesTags: ["facility"],
+    }),
     createFacility: builder.mutation({
       query: (facilityInfo) => {
         return {
@@ -52,4 +59,5 @@ export const {
   useUpdateFacilityMutation,
   useDeleteFacilityMutation,
   useGetSingleFacilitiesQuery,
+  useGetPopularFacilitesQuery
 } = facilityApi;

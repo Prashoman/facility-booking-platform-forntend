@@ -12,6 +12,8 @@ import AddAdmin from "../pages/Dashboard/Admin/AdminMang/AddAdmin";
 import Home from "../pages/Home/Home";
 import AllBookings from "../pages/Dashboard/Admin/AllBookings/AllBookings";
 import MyBookings from "../pages/Dashboard/User/MyBookings/MyBookings";
+import FacilityDetails from "../pages/FacilityDetails/FacilityDetails";
+import Booking from "../pages/Booking/Booking";
 
 
 const router = createBrowserRouter([
@@ -22,6 +24,14 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home/>,
+      },
+      {
+        path:"/facility/:facilityId",
+        element: <FacilityDetails/>,
+      },
+      {
+        path: "/booking/:facilityId",
+        element: <Booking/>,
       },
       {
         path: "/login",

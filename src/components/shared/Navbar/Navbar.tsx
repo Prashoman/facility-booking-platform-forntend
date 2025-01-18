@@ -10,8 +10,8 @@ export default function NavBar() {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   return (
     <>
-      <div>
-        <div className="w-full sticky top-0 left-0">
+      <>
+        <div className="w-full sticky z-30 top-0 left-0">
           <nav className="bg-neutral text-neutral-content  w-full  px-4 xl:px-20 shadow-2xl">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
               <Link
@@ -137,7 +137,7 @@ export default function NavBar() {
             </div>
           </motion.div>
         )}
-      </div>
+      </>
     </>
   );
 }
