@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import HerozSection from "../../components/ui/HeroSection/HerozSection";
 import Testimonials from "../../components/ui/Testimonials/Testimonials";
 import TopBookingsFacilites from "../../components/ui/TopBookingsFacilites/TopBookingsFacilites";
+import HowWork from "../../components/shared/HowWork/HowWork";
 
 
 const Home = () => {
@@ -13,6 +14,7 @@ const Home = () => {
         <>
             <HerozSection/>
             <TopBookingsFacilites/>
+            <HowWork/>
             <Testimonials/>
         </>
     );

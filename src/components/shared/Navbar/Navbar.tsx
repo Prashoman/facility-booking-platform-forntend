@@ -4,10 +4,12 @@ import { HiOutlineMenuAlt2, HiOutlineX } from "react-icons/hi";
 import Logo from "../../../assets/images/logo.png";
 
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function NavBar() {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const location = useLocation();
+  const currentPathname = location.pathname;
   return (
     <>
       <>
@@ -26,41 +28,37 @@ export default function NavBar() {
                   <li>
                     <Link
                       to={"/"}
-                      className="text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all"
+                      className={`text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all ${
+                        currentPathname === `/` ? "text-[#F2BF4A]" : ""
+                      }`}
                     >
                       Home
                     </Link>
                   </li>
                   <li>
                     <Link
-                      to={"/"}
-                      className="text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all"
+                      to={"/facility"}
+                      className={`text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all ${
+                        currentPathname === `/facility` ? "text-[#F2BF4A]" : ""
+                      }`}
                     >
-                      Home
+                      Facility
                     </Link>
                   </li>
                   <li>
                     <Link
-                      to={"/product"}
-                      className="text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all"
+                      to={"/about-us"}
+                      className={`text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all ${ currentPathname === `/about-us` ? "text-[#F2BF4A]" : ""}`} 
                     >
-                      Product
+                      About Us
                     </Link>
                   </li>
                   <li>
                     <Link
-                      to={"/"}
-                      className="text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all"
+                      to={"/contact-us"}
+                      className={`text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all ${ currentPathname === `/contact-us` ? "text-[#F2BF4A]" : ""}`}	
                     >
-                      Home
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to={"/about"}
-                      className="text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all"
-                    >
-                      About
+                      Contact Us
                     </Link>
                   </li>
                 </ul>
@@ -107,26 +105,26 @@ export default function NavBar() {
                 </li>
                 <li>
                   <Link
-                    to="/product"
+                    to="/facility"
                     className="text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all"
                   >
-                    Product
+                    Facility
                   </Link>
                 </li>
                 <li>
                   <Link
-                    to="/"
+                    to="/about-us"
                     className="text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all"
                   >
-                    Home
+                    About Us
                   </Link>
                 </li>
                 <li>
                   <Link
-                    to="/"
+                    to="/contact-us"
                     className="text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all"
                   >
-                    Home
+                    Contact Us
                   </Link>
                 </li>
               </ul>

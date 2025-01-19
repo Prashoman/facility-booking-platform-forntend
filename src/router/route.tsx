@@ -14,16 +14,27 @@ import AllBookings from "../pages/Dashboard/Admin/AllBookings/AllBookings";
 import MyBookings from "../pages/Dashboard/User/MyBookings/MyBookings";
 import FacilityDetails from "../pages/FacilityDetails/FacilityDetails";
 import Booking from "../pages/Booking/Booking";
+import PaymentSuccess from "../pages/PaymentSuccess/PaymentSuccess";
+import UserFacility from "../pages/Facility/Facility";
+import NotFound from "../components/ui/NotFound/NotFound";
+import ErrorPage from "../components/ui/ErrorPage/ErrorPage";
+import ContactUs from "../pages/ContactUs/ContactUs";
+import AboutPage from "../pages/AboutPage/AboutPage";
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement:<ErrorPage/>,
     children: [
       {
         path: "/",
         element: <Home/>,
+      },
+      {
+        path: "/facility",
+        element: <UserFacility/>,
       },
       {
         path:"/facility/:facilityId",
@@ -41,6 +52,18 @@ const router = createBrowserRouter([
         path: "/register",
         element: <Register />,
       },
+      {
+        path:"/payment-success",
+        element: <PaymentSuccess/>,
+      },
+      {
+        path:"/contact-us",
+        element:<ContactUs/>
+      },
+      {
+        path:"/about-us",
+        element:<AboutPage/>
+      }
     ],
   },
   {
@@ -88,6 +111,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { path: "*", element: <NotFound /> },
 ]);
 
 export default router;

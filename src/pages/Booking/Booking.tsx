@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { motion } from "framer-motion";
@@ -5,22 +6,25 @@ import { useParams } from "react-router-dom";
 import { useGetSingleFacilitiesQuery } from "../../redux/features/facility/facilityApi";
 import { useEffect, useState } from "react";
 import Loading from "../../components/shared/Loading/Loading";
-import { useGetAvailableBookingsSlotQuery } from "../../redux/features/user/bookings/bookings";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { RootState } from "../../redux/store";
-import { setPayload } from "../../redux/features/user/bookings/bookingSlice";
+import {
+  useCreateBookingMutation,
+  useGetAvailableBookingsSlotQuery,
+} from "../../redux/features/user/bookings/bookings";
+
+
 import { toast } from "sonner";
 
 const Booking = () => {
-  const dispatch = useAppDispatch();
-  const payload = useAppSelector((state: RootState) => state.booking.payload);
+  
+  const [filter, setFilter] = useState<{ date?: string; facility: string }>({ facility: "" });
 
   const [date, setDate] = useState<string>("");
   const { facilityId } = useParams<{ facilityId: string }>();
 
   // Fetch facility details
   const { data, isLoading } = useGetSingleFacilitiesQuery(facilityId);
- 
+  const [bookingFacility] = useCreateBookingMutation();
+
   const facility = data?.data;
 
   // Fetch available booking slots
@@ -29,11 +33,11 @@ const Booking = () => {
     error,
     isError,
     isLoading: slotLoading,
-  } = useGetAvailableBookingsSlotQuery(payload || {}, {
-    skip: !payload,
+  } = useGetAvailableBookingsSlotQuery(filter || {}, {
+    skip: !filter.facility,
     refetchOnMountOrArgChange: true,
   });
-  console.log({ getSlot, payload });
+  console.log({ getSlot });
 
   // Handle error with toast
   useEffect(() => {
@@ -57,31 +61,46 @@ const Booking = () => {
     const newPayload = date
       ? { date, facility: facilityId! }
       : { facility: facilityId! };
+    setFilter(newPayload);
 
-    dispatch(setPayload(newPayload));
+    // dispatch(setPayload(newPayload));
   };
 
-  const handleProcess = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleProcess = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
     const startTime = formData.get("startTime") as string;
     const endTime = formData.get("endTime") as string;
-    console.log({startTime, endTime});
+    console.log({ startTime, endTime });
 
-    if (!startTime || !endTime) {
-      return toast.error("Please select start and end time");
+    
+
+    if (!startTime || !endTime || !date) {
+      return toast.error("Please select start and end time and Date");
     }
-
+    if( startTime >= endTime){
+      return toast.error("End time should be greater than start time");
+    }
     const newPayload = {
-     date: payload?.date,
-      facility: payload?.facility,
+      date: date,
+      facility:facilityId,
       startTime,
       endTime,
     };
-
-    
-  }
+    try {
+      const response = await bookingFacility(newPayload).unwrap();
+      console.log({ response });
+      if (response.success) {
+        toast.success(response.message);
+        window.location.href = response?.data?.payment_url;
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error: any) {
+      toast.error(error.data.message);
+    }
+  };
 
   return (
     <>
@@ -174,7 +193,7 @@ const Booking = () => {
           <div className="flex justify-center items-center">
             <form onSubmit={handleProcess} className="w-1/3 mx-auto mt-4">
               <div className="flex justify-between gap-4 mt-4">
-                <div>
+                <div className="flex items-center gap-2">
                   <label htmlFor="time" className="text-white">
                     Start Time
                   </label>
@@ -187,14 +206,14 @@ const Booking = () => {
                     name="startTime"
                     onChange={(e) => {
                       const value = e.target.value;
-                      const [hours,] = value.split(":").map(Number);
+                      const [hours] = value.split(":").map(Number);
                       if (hours === 0) {
                         e.target.value = "01:00";
                       }
                     }}
                   />
                 </div>
-                <div>
+                <div className="flex items-center gap-2">
                   <label htmlFor="time" className="text-white">
                     End Time
                   </label>
@@ -207,7 +226,7 @@ const Booking = () => {
                     name="endTime"
                     onChange={(e) => {
                       const value = e.target.value;
-                      const [hours,] = value.split(":").map(Number);
+                      const [hours] = value.split(":").map(Number);
                       if (hours === 0) {
                         e.target.value = "01:00";
                       }

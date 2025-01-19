@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 const Testimonials = () => {
   return (
     <>
-      <div className="mb-12">
+      <div className="">
         <div className="bg-slate-700 relative w-full h-[800px]">
           <div className=" absolute z-20 top-28 lg:top-20 right-4 lg:right-32 w-11/12 lg:w-3/4 bg-gray-600 rounded-lg p-4 lg:p-10">
             <div className="text-center mb-10">
