@@ -12,6 +12,7 @@ export interface TBooking {
     isBooked: string
     createdAt: string
     updatedAt: string
+    status?: boolean
     __v: number
   }
   
