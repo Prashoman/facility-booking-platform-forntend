@@ -80,22 +80,41 @@ const EditFacility = () => {
       return;
     }
     try {
+      let facilityImage = null;
+      if(singleImage){
+        const hostUrl = `https://api.imgbb.com/1/upload?key=9304fa358b01e425958d8d339f09a15c`;
+      const imagePayload = new FormData();
+      imagePayload.append("image", singleImage as Blob);
+      const imageResponse = await fetch(hostUrl, {
+        method: "POST",
+        body: imagePayload,
+      });
+      const imageData = await imageResponse.json();
+      console.log({ imageData });
+      
+      if (imageData.success) {
+        facilityImage = imageData.data.url;
+      } else {
+        toast.error("An error occurred while uploading image", { id: toastId });
+        return;
+      }
+      }else{
+        facilityImage= formValues.image;
+      }
+      
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const updatedData: any = {
         name,
         pricePerHour: Number(pricePerHour),
         location,
         description,
+        image: facilityImage,
       };
-      let uploadData = {};
-      const payload = new FormData();
-      if (singleImage) {
-        payload.append("facilityImage", singleImage);
-      }
-      payload.append("data", JSON.stringify(updatedData));
-      uploadData = {
+      console.log({ updatedData });
+      
+     const uploadData = {
         id: facilityId,
-        updateFacility: payload,
+        updateFacility: updatedData,
       };
       const updateFacilityResponse = await updatedFacilityQuery(
         uploadData

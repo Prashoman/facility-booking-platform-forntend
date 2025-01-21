@@ -11,13 +11,14 @@ import {
   useGetAvailableBookingsSlotQuery,
 } from "../../redux/features/user/bookings/bookings";
 
-
 import { toast } from "sonner";
 
 const Booking = () => {
-  
-  const [filter, setFilter] = useState<{ date?: string; facility: string }>({ facility: "" });
-
+  const [startTime, setStartTime] = useState("01:00");
+  const [endTime, setEndTime] = useState("24:00");
+  const [filter, setFilter] = useState<{ date?: string; facility: string }>({
+    facility: "",
+  });
   const [date, setDate] = useState<string>("");
   const { facilityId } = useParams<{ facilityId: string }>();
 
@@ -68,26 +69,29 @@ const Booking = () => {
 
   const handleProcess = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget as HTMLFormElement;
-    const formData = new FormData(form);
-    const startTime = formData.get("startTime") as string;
-    const endTime = formData.get("endTime") as string;
-    console.log({ startTime, endTime });
+  
 
-    
+    // console.log({ startTime, endTime });
 
-    if (!startTime || !endTime || !date) {
+    if(!date){
+      return toast.error("Please select date");
+    }
+
+    if (!startTime || !endTime) {
       return toast.error("Please select start and end time and Date");
     }
-    if( startTime >= endTime){
+    if (startTime >= endTime) {
       return toast.error("End time should be greater than start time");
     }
     const newPayload = {
       date: date,
-      facility:facilityId,
+      facility: facilityId,
       startTime,
       endTime,
     };
+    // console.log({ newPayload });
+    // return;
+    
     try {
       const response = await bookingFacility(newPayload).unwrap();
       console.log({ response });
@@ -99,6 +103,20 @@ const Booking = () => {
       }
     } catch (error: any) {
       toast.error(error.data.message);
+    }
+  };
+
+  
+
+  const handleTimeChange = (e:any, setter:any) => {
+    const value = e.target.value;
+    const [hours] = value.split(":").map(Number);
+    if (hours < 1) {
+      setter("01:00");
+    } else if (hours > 24) {
+      setter("24:00");
+    } else {
+      setter(value);
     }
   };
 
@@ -194,43 +212,33 @@ const Booking = () => {
             <form onSubmit={handleProcess} className="w-1/3 mx-auto mt-4">
               <div className="flex justify-between gap-4 mt-4">
                 <div className="flex items-center gap-2">
-                  <label htmlFor="time" className="text-white">
+                  <label htmlFor="startTime" className="text-white">
                     Start Time
                   </label>
                   <input
                     type="time"
                     className="border-2 border-gray-300 px-2 py-1 rounded-lg bg-slate-800 text-white"
-                    placeholder="00:00"
+                    name="startTime"
+                    value={startTime}
                     min="01:00"
                     max="24:00"
-                    name="startTime"
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      const [hours] = value.split(":").map(Number);
-                      if (hours === 0) {
-                        e.target.value = "01:00";
-                      }
-                    }}
+                    placeholder="Start Time"
+                    onChange={(e) => handleTimeChange(e, setStartTime)}
                   />
                 </div>
-                <div className="flex items-center gap-2">
-                  <label htmlFor="time" className="text-white">
+                <div className="flex items-center gap-2 mt-4">
+                  <label htmlFor="endTime" className="text-white">
                     End Time
                   </label>
                   <input
                     type="time"
                     className="border-2 border-gray-300 px-2 py-1 rounded-lg bg-slate-800 text-white"
-                    placeholder="00:00"
+                    name="endTime"
+                    value={endTime}
+                    placeholder="End Time"
                     min="01:00"
                     max="24:00"
-                    name="endTime"
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      const [hours] = value.split(":").map(Number);
-                      if (hours === 0) {
-                        e.target.value = "01:00";
-                      }
-                    }}
+                    onChange={(e) => handleTimeChange(e, setEndTime)}
                   />
                 </div>
               </div>

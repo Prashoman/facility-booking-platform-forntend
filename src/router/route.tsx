@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
- import LayoutDashboard from "../pages/Dashboard/LayoutDashboard/LayoutDashboard";
+import LayoutDashboard from "../pages/Dashboard/LayoutDashboard/LayoutDashboard";
 import Welcome from "../pages/Dashboard/common/Welcome/Welcome";
 import Facility from "../pages/Dashboard/Admin/Facility/Facility";
 import AddFacility from "../pages/Dashboard/Admin/Facility/AddFacility";
@@ -20,29 +20,34 @@ import NotFound from "../components/ui/NotFound/NotFound";
 import ErrorPage from "../components/ui/ErrorPage/ErrorPage";
 import ContactUs from "../pages/ContactUs/ContactUs";
 import AboutPage from "../pages/AboutPage/AboutPage";
-
+import UserPrivateRoute from "./PrivateRoute/UserPrivateRoute";
+import AdminPrivateRoute from "./PrivateRoute/AdminPrivateRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement:<ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
-        element: <Home/>,
+        element: <Home />,
       },
       {
         path: "/facility",
-        element: <UserFacility/>,
+        element: <UserFacility />,
       },
       {
-        path:"/facility/:facilityId",
-        element: <FacilityDetails/>,
+        path: "/facility/:facilityId",
+        element: <FacilityDetails />,
       },
       {
         path: "/booking/:facilityId",
-        element: <Booking/>,
+        element: (
+          <UserPrivateRoute>
+            <Booking />
+          </UserPrivateRoute>
+        ),
       },
       {
         path: "/login",
@@ -53,17 +58,17 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path:"/payment-success",
-        element: <PaymentSuccess/>,
+        path: "/payment-success",
+        element: <PaymentSuccess />,
       },
       {
-        path:"/contact-us",
-        element:<ContactUs/>
+        path: "/contact-us",
+        element: <ContactUs />,
       },
       {
-        path:"/about-us",
-        element:<AboutPage/>
-      }
+        path: "/about-us",
+        element: <AboutPage />,
+      },
     ],
   },
   {
@@ -72,42 +77,80 @@ const router = createBrowserRouter([
     children: [
       {
         path: "admin",
-        element: <Welcome/>,
+        element: (
+          <AdminPrivateRoute>
+            {" "}
+            <Welcome />
+          </AdminPrivateRoute>
+        ),
       },
       {
         path: "admin/facility",
-        element: <Facility/>,
+        element: (
+          <AdminPrivateRoute>
+            <Facility />
+          </AdminPrivateRoute>
+        ),
       },
       {
         path: "admin/admin",
-        element: <Admin/>,
+        element: (
+          <AdminPrivateRoute>
+            <Admin />
+          </AdminPrivateRoute>
+        ),
       },
       {
         path: "admin/add",
-        element: <AddAdmin/>,
+        element: (
+          <AdminPrivateRoute>
+            <AddAdmin />
+          </AdminPrivateRoute>
+        ),
       },
       {
         path: "facility/add",
-        element: <AddFacility/>,
+        element: (
+          <AdminPrivateRoute>
+            <AddFacility />
+          </AdminPrivateRoute>
+        ),
       },
       {
         path: "facility/edit/:facilityId",
-        element: <EditFacility/>,
+        element: (
+          <AdminPrivateRoute>
+            <EditFacility />
+          </AdminPrivateRoute>
+        ),
       },
-      
+
       {
         path: "admin/all-bookings",
-        element: <AllBookings/>,
+        element: (
+          <AdminPrivateRoute>
+            <AllBookings />
+          </AdminPrivateRoute>
+        ),
       },
 
       // user route start
       {
         path: "user",
-        element: <Welcome/>,
+        element: (
+          <UserPrivateRoute>
+            {" "}
+            <Welcome />{" "}
+          </UserPrivateRoute>
+        ),
       },
       {
         path: "user/my-bookings",
-        element: <MyBookings/>,
+        element: (
+          <UserPrivateRoute>
+            <MyBookings />
+          </UserPrivateRoute>
+        ),
       },
     ],
   },

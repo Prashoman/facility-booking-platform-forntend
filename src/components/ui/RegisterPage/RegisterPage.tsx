@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import RegisterImage from "../../../assets/images/register.jpg";
 import Input from "../../shared/InputFields/Input";
 import SFForm from "../../shared/Form/SFForm";
 import { FieldValues } from "react-hook-form";
@@ -37,70 +36,69 @@ const RegisterPage = () => {
     }
   };
   return (
-    <div className="flex items-center justify-between px-28 py-10">
-      <div className="w-[48%]">
-        <img className="" src={RegisterImage} alt="" />
-      </div>
-      <div className="shadow-gray-700 border py-10 px-4 w-[50%] rounded">
-        <h1 className="text-center text-[25px] font-medium font-serif">
-          Register First
-        </h1>
-        <SFForm onSubmit={handleRegistrationSubmit}>
-          <Input
-            label="Name"
-            name="name"
-            placeholder="Enter your name"
-            type="text"
-            required={true}
-          />
-          <Input
-            label="Email"
-            name="email"
-            placeholder="Enter your email"
-            type="email"
-            required={true}
-          />
-          <Input
-            label="Password"
-            name="password"
-            placeholder="Enter your password"
-            type="password"
-            required={true}
-          />
-          <Input
-            label="Phone"
-            name="phone"
-            placeholder="Enter your phone"
-            type="text"
-            required={true}
-          />
-          <Input
-            label="Address"
-            name="address"
-            placeholder="Enter your address"
-            type="text"
-            required={true}
-          />
-          <button
-            type="submit"
-            className="bg-blue-600 text-white font-serif border rounded py-1 px-2 text-[18px] mt-4"
-          >
-            Register
-          </button>
-          <div>
-            <p className="text-center mt-4">
+    <>
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4 pt-7">
+        <div className="bg-gray-800 w-full max-w-md  p-8 rounded-lg shadow-lg">
+          <h1 className="text-center text-white text-2xl font-medium font-serif mb-6">
+            Register First
+          </h1>
+          <SFForm onSubmit={handleRegistrationSubmit}>
+            <Input
+              label="Name"
+              name="name"
+              placeholder="Enter your name"
+              type="text"
+              required={true}
+            />
+            <Input
+              label="Email"
+              name="email"
+              placeholder="Enter your email"
+              type="email"
+              required={true}
+            />
+            <Input
+              label="Password"
+              name="password"
+              placeholder="Enter your password"
+              type="password"
+              required={true}
+            />
+            <Input
+              label="Phone"
+              name="phone"
+              placeholder="Enter your phone"
+              type="text"
+              required={true}
+            />
+            <Input
+              label="Address"
+              name="address"
+              placeholder="Enter your address"
+              type="text"
+              required={true}
+            />
+            <button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-serif border rounded py-2 mt-4 text-lg transition-colors"
+            >
+              Register
+            </button>
+          </SFForm>
+          <div className="mt-6 text-center">
+            <p className="text-white">
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="text-blue-600 hover:text-blue-800 font-serif"
+                className="text-blue-400 hover:text-blue-600 font-serif"
               >
                 Login
               </Link>
             </p>
           </div>
-        </SFForm>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useCreateFacilityMutation } from "../../../../redux/features/facility/facilityApi";
@@ -21,18 +22,29 @@ const AddFacility = () => {
     const { name, location, description, pricePerHour } = data;
 
     try {
-      const formData = new FormData();
-      formData.append("facilityImage", image as Blob);
-      formData.append(
-        "data",
-        JSON.stringify({
-          name,
-          location,
-          description,
-          pricePerHour: Number(pricePerHour),
-        })
-      );
-      const facilityResponse = await facilityInsert(formData).unwrap();
+      let facilityImage = null;
+      const hostUrl = `https://api.imgbb.com/1/upload?key=9304fa358b01e425958d8d339f09a15c`;
+      const imagePayload = new FormData();
+      imagePayload.append("image", image as Blob);
+      const imageResponse = await fetch(hostUrl, {
+        method: "POST",
+        body: imagePayload,
+      });
+      const imageData = await imageResponse.json();
+      if (imageData.success) {
+        facilityImage = imageData.data.url;
+      } else {
+        toast.error("An error occurred while uploading image", { id: toastId });
+        return;
+      }
+      const insertedData = {
+        image: facilityImage ?? "",
+        name,
+        location,
+        description,
+        pricePerHour: Number(pricePerHour),
+      };
+      const facilityResponse = await facilityInsert(insertedData).unwrap();
       if (facilityResponse?.success) {
         toast.success(facilityResponse?.message, { id: toastId });
         navigate("/dashboard/admin/facility");

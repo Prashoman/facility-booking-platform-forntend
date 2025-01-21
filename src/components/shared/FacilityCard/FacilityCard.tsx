@@ -43,7 +43,9 @@ const FacilityCard = ({facility}:TProps) => {
               <span className="font-semibold text-gray-100">
                 Total Bookings:
               </span>{" "}
-              3
+              {
+                facility?.count
+              }
             </p>
           </div>
           <div className="mt-6 flex justify-between items-center">

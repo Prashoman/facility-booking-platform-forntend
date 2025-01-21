@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { TUser } from '../../../components/ui/LoginPage/LoginPage'
 import { RootState } from '../../store'
 
-type TInitialState = {
+export type TInitialState = {
     user: null | TUser,
     token: null | string,
 }
@@ -15,7 +15,6 @@ const initialState:TInitialState = {
 
 export const authSlice = createSlice({
     name: 'auth',
-    // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
       setUser : (state, action: PayloadAction<{user: TUser | null, token: string}>) => {

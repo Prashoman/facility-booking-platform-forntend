@@ -2,14 +2,11 @@ import React, { useState, useEffect } from "react";
 
 const ScrollTopToButton: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-
-  // Handle scroll
   const handleScroll = () => {
     const scrollTop = window.scrollY;
     setIsVisible(scrollTop > 300);
   };
 
-  // Scroll to top
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -24,9 +21,6 @@ const ScrollTopToButton: React.FC = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  console.log("ScrollTopToButton rendered");
-  
-
   return (
     <button
       onClick={scrollToTop}

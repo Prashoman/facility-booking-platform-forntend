@@ -5,11 +5,14 @@ import Logo from "../../../assets/images/logo.png";
 
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
+import { currentUser } from "../../../redux/features/auth/authSlice";
+import { useAppSelector } from "../../../redux/hooks";
 
 export default function NavBar() {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const location = useLocation();
   const currentPathname = location.pathname;
+  const user = useAppSelector(currentUser);
   return (
     <>
       <>
@@ -48,7 +51,9 @@ export default function NavBar() {
                   <li>
                     <Link
                       to={"/about-us"}
-                      className={`text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all ${ currentPathname === `/about-us` ? "text-[#F2BF4A]" : ""}`} 
+                      className={`text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all ${
+                        currentPathname === `/about-us` ? "text-[#F2BF4A]" : ""
+                      }`}
                     >
                       About Us
                     </Link>
@@ -56,19 +61,31 @@ export default function NavBar() {
                   <li>
                     <Link
                       to={"/contact-us"}
-                      className={`text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all ${ currentPathname === `/contact-us` ? "text-[#F2BF4A]" : ""}`}	
+                      className={`text-white hover:text-[#F2BF4A] text-[16px] font-[500] hover:text-[17px] transition-all ${
+                        currentPathname === `/contact-us`
+                          ? "text-[#F2BF4A]"
+                          : ""
+                      }`}
                     >
                       Contact Us
                     </Link>
                   </li>
                 </ul>
-
-                <Link
-                  to={"/login"}
-                  className="bg-yellow-500 text-white px-2 py-1 rounded-md hidden lg:block"
-                >
-                  Login
-                </Link>
+                {user ? (
+                  <Link
+                    to={`/dashboard/${user.role}`}
+                    className="bg-blue-500 text-white px-2 py-1 rounded-md hidden lg:block"
+                  >
+                    Dashboard
+                  </Link>
+                ) : (
+                  <Link
+                    to={"/login"}
+                    className="bg-blue-500 text-white px-2 py-1 rounded-md hidden lg:block"
+                  >
+                    Login
+                  </Link>
+                )}
 
                 <div
                   className="block lg:hidden"
@@ -83,7 +100,7 @@ export default function NavBar() {
 
         {isNavbarOpen && (
           <motion.div
-            className="w-[50%] bg-neutral text-neutral-content h-screen block lg:hidden absolute z-30 top-[15%] right-0 rounded"
+            className="w-[50%] bg-neutral text-neutral-content h-screen block lg:hidden fixed z-30 top-[15%] right-0 rounded"
             initial={{ x: "100%" }} // Start off-screen to the right
             animate={{ x: "0%" }} // Animate to its normal position
             exit={{ x: "0%" }} // Exit with a slide left and fade out
@@ -126,6 +143,23 @@ export default function NavBar() {
                   >
                     Contact Us
                   </Link>
+                </li>
+                <li>
+                  {user ? (
+                    <Link
+                      to={`/dashboard/${user.role}`}
+                      className="bg-blue-500 text-white px-2 py-1 rounded-md"
+                    >
+                      Dashboard
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/login"
+                      className="bg-blue-500 text-white px-2 py-1 rounded-md "
+                    >
+                      Login
+                    </Link>
+                  )}
                 </li>
               </ul>
               <HiOutlineX

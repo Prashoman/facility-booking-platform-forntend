@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import LoginImage from "../../../assets/images/login.jpg";
 import Input from "../../shared/InputFields/Input";
 import SFForm from "../../shared/Form/SFForm";
 import { FieldValues } from "react-hook-form";
@@ -54,12 +53,9 @@ const LoginPage = () => {
     }
   };
   return (
-    <div className="flex items-center justify-between px-28">
-      <div className="w-[50%]">
-        <img className="" src={LoginImage} alt="" />
-      </div>
-      <div className="shadow-gray-700 border py-10 px-4 w-[50%] rounded">
-        <h1 className="text-center text-[25px] font-medium font-serif">
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-gray-800  p-8 rounded-lg shadow-lg">
+        <h1 className="text-center text-2xl text-white font-medium font-serif mb-6">
           Login
         </h1>
         <SFForm onSubmit={handleLoginSubmit}>
@@ -79,17 +75,17 @@ const LoginPage = () => {
           />
           <button
             type="submit"
-            className="bg-blue-600 text-white font-serif border rounded py-1 px-2 text-[18px] mt-4"
+            className="bg-blue-600 hover:bg-blue-700 w-full text-white font-serif border rounded py-2 mt-4 text-lg transition-colors"
           >
             Log in
           </button>
         </SFForm>
-        <div>
-          <p className="text-center mt-4">
+        <div className="mt-6 text-center">
+          <p className="text-white">
             Don't have an account?{" "}
             <Link
               to="/register"
-              className="text-blue-600 hover:text-blue-800 font-serif"
+              className="text-blue-400 hover:text-blue-600 font-serif"
             >
               Register
             </Link>
