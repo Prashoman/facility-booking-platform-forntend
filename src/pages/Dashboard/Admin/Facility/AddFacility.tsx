@@ -69,7 +69,7 @@ const AddFacility = () => {
         Add an Facility
       </h1>
       <div className="flex justify-center">
-        <div className="w-4/6 border py-10 px-5">
+        <div className="w-full lg:w-4/6 border py-10 px-5">
           <form onSubmit={handleSubmit(handleFacilitySubmit)}>
             <div className="mb-4">
               <label

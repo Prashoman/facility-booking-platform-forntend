@@ -139,7 +139,7 @@ const EditFacility = () => {
         Edit an {facility?.name} Facility
       </h1>
       <div className="flex justify-center">
-        <div className="w-4/6 border py-10 px-5">
+        <div className="w-full lg:w-4/6 border py-10 px-5">
           <form onSubmit={handleEditFacility}>
             <div className="mb-4">
               <label
