@@ -17,7 +17,7 @@ const Input = ({ label, name, placeholder, type,required }: TInputProps) => {
 
   return (
     <div className="py-1">
-      <label htmlFor={name} className="mb-2 font-serif">{label}</label>
+      <label htmlFor={name} className="mb-2 font-serif text-white">{label}</label>
       <input
         id={name}
         type={type}

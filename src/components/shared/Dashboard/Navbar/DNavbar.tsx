@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Logo from "../../../../assets/images/logo.png";
+
 
 const DNavbar = () => {
   return (
@@ -9,7 +9,7 @@ const DNavbar = () => {
           to={"/"}
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
-          <img className="h-[30px] w-[80px] lg:h-[50px] lg:w-[150px]" src={Logo} alt="" />
+          <img className="h-[30px] w-[80px] lg:h-[50px] lg:w-[150px]"  alt="" />
         </Link>
       </div>
       <div className="flex-none gap-2">

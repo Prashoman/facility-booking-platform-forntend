@@ -3,6 +3,7 @@ import HerozSection from "../../components/ui/HeroSection/HerozSection";
 import Testimonials from "../../components/ui/Testimonials/Testimonials";
 import TopBookingsFacilites from "../../components/ui/TopBookingsFacilites/TopBookingsFacilites";
 import HowWork from "../../components/shared/HowWork/HowWork";
+import OurFeature from "../../components/ui/OurFeature/OurFeature";
 
 
 const Home = () => {
@@ -15,6 +16,7 @@ const Home = () => {
             <HerozSection/>
             <TopBookingsFacilites/>
             <HowWork/>
+            <OurFeature/>
             <Testimonials/>
         </>
     );

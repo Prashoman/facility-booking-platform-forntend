@@ -3,7 +3,8 @@ import { RootState } from "../store";
 
 const baseQuery = fetchBaseQuery({
   // baseUrl: "http://localhost:5000/api",
-  baseUrl: "https://sports-facility-booking-server-iota.vercel.app/api",
+  // baseUrl: "https://sports-facility-booking-server-iota.vercel.app/api",
+  baseUrl: "https://sports-facility-booking-platform-smoky-chi.vercel.app/api",
   credentials: "include",
   prepareHeaders: (headers,{getState})=>{
     const token = (getState() as RootState).auth.token;

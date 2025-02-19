@@ -1,70 +1,70 @@
 const HowWork = () => {
   return (
     <>
-      <section className="max-w-7xl mx-auto py-16 px-4 lg:px-20 bg-slate-800">
-        <h2 className="text-3xl font-bold text-center text-gray-100 mb-8">
-          How It Works
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {[
-            {
-              step: "1",
-              title: "Connect Your Shop",
-              description:
-                "Integrate your shop with just a few clicks for seamless synchronization.",
-              icon: "🖥️",
-            },
-            {
-              step: "2",
-              title: "Synchronize Products",
-              description:
-                "Sync your products to start managing and tracking orders.",
-              icon: "🔄",
-            },
-            {
-              step: "3",
-              title: "Receive Orders",
-              description:
-                "Start receiving orders and manage everything in one place.",
-              icon: "📦",
-            },
-            {
-              step: "4",
-              title: "Professional Fulfillment",
-              description:
-                "We handle warehousing and quality checks with a professional network.",
-              icon: "🏢",
-            },
-            {
-              step: "5",
-              title: "Shipping & Tracking",
-              description:
-                "Track orders with real-time updates and manage returns easily.",
-              icon: "🚚",
-            },
-            {
-              step: "6",
-              title: "Grow Your Business",
-              description:
-                "Focus on scaling your business while we handle the rest.",
-              icon: "📈",
-            },
-          ].map((item, index) => (
-            <div
-              key={index}
-              className="bg-gray-500 shadow-lg rounded-lg p-6 text-center border-t-4 border-blue-500 transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-            >
-              <div className="text-4xl font-bold text-blue-500 mb-4 animate-fade-in">
-                {item.icon}
-              </div>
-              <h3 className="text-lg font-semibold text-gray-200 mb-2">
-                Step {item.step}: {item.title}
-              </h3>
-              <p className="text-gray-300 text-sm">{item.description}</p>
-            </div>
-          ))}
+     <section className="w-full mx-auto py-16 lg:px-20 bg-gradient-to-r from-blue-900 to-gray-900">
+  <h2 className="text-4xl font-bold text-center text-white mb-12">
+    How It Works
+  </h2>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+    {[
+      {
+        step: "1",
+        title: "Register & Login",
+        description:
+          "Create an account and log in to access our sports facility booking system.",
+        icon: "👤",
+      },
+      {
+        step: "2",
+        title: "Browse & Select",
+        description:
+          "Explore available sports facilities, check pricing, and choose your preferred slot.",
+        icon: "🏟️",
+      },
+      {
+        step: "3",
+        title: "Instant Booking",
+        description:
+          "Book your slot with a few clicks and get instant confirmation.",
+        icon: "📅",
+      },
+      {
+        step: "4",
+        title: "Secure Payment",
+        description: "Pay securely online with multiple payment options.",
+        icon: "💳",
+      },
+      {
+        step: "5",
+        title: "Enjoy Your Game",
+        description:
+          "Visit the facility at the scheduled time and enjoy your game.",
+        icon: "⚽",
+      },
+      {
+        step: "6",
+        title: "Review & Earn Rewards",
+        description:
+          "Rate the facility and earn reward points for future bookings.",
+        icon: "⭐",
+      },
+    ].map((item, index) => (
+      <div
+        key={index}
+        className="bg-gradient-to-b from-[#2d4b8e] to-[#1e3a8a] shadow-xl rounded-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+      >
+        <div className="text-5xl font-bold text-yellow-500 mb-4 animate-bounce">
+          {item.icon}
         </div>
-      </section>
+        <h3 className="text-xl font-semibold text-white mb-2">
+          Step {item.step}: {item.title}
+        </h3>
+        <p className="text-gray-200">{item.description}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
     </>
   );
 };

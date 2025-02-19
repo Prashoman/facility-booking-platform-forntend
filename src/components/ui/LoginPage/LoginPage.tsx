@@ -44,18 +44,18 @@ const LoginPage = () => {
       navigate(`/dashboard/${user?.role}`);
       toast.success("Login successful", { id: toastId });
     } catch (error) {
-      // console.log("error", error); 
+      // console.log("error", error);
       const errorMes = error as TError;
-        toast.error(errorMes?.data?.message, { id: toastId });
+      toast.error(errorMes?.data?.message, { id: toastId });
       // } else {
       //   toast.error("Somethings went wrong!", { id: toastId });
       // }
     }
   };
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-gray-800  p-8 rounded-lg shadow-lg">
-        <h1 className="text-center text-2xl text-white font-medium font-serif mb-6">
+    <div className="min-h-screen bg-gradient-to-r from-indigo-800 to-blue-900 flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-gradient-to-b from-[#3b4e88] to-[#2a3b6e] shadow-xl p-8 rounded-lg">
+        <h1 className="text-center text-3xl text-white font-medium font-serif mb-6">
           Login
         </h1>
         <SFForm onSubmit={handleLoginSubmit}>
@@ -75,7 +75,7 @@ const LoginPage = () => {
           />
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 w-full text-white font-serif border rounded py-2 mt-4 text-lg transition-colors"
+            className="bg-indigo-600 hover:bg-indigo-700 w-full text-white font-serif border rounded py-2 mt-4 text-lg transition-colors"
           >
             Log in
           </button>

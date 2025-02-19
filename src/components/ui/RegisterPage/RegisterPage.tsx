@@ -37,9 +37,9 @@ const RegisterPage = () => {
   };
   return (
     <>
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4 pt-7">
-        <div className="bg-gray-800 w-full max-w-md  p-8 rounded-lg shadow-lg">
-          <h1 className="text-center text-white text-2xl font-medium font-serif mb-6">
+      <div className="min-h-screen bg-gradient-to-r from-indigo-800 to-blue-900 flex items-center justify-center px-4 pt-7">
+        <div className="bg-gradient-to-b from-[#3b4e88] to-[#2a3b6e] w-full max-w-md p-8 rounded-lg shadow-xl">
+          <h1 className="text-center text-white text-3xl font-medium font-serif mb-6">
             Register First
           </h1>
           <SFForm onSubmit={handleRegistrationSubmit}>
@@ -80,7 +80,7 @@ const RegisterPage = () => {
             />
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-serif border rounded py-2 mt-4 text-lg transition-colors"
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-serif border rounded py-2 mt-4 text-lg transition-colors"
             >
               Register
             </button>

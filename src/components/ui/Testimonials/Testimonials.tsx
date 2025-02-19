@@ -1,167 +1,99 @@
+"use client";
+
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay, EffectCoverflow } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation } from "swiper/modules";
+import "swiper/css/effect-coverflow";
 
-import { FaQuoteLeft } from "react-icons/fa";
-import { motion } from "framer-motion";
+const testimonials = [
+  {
+    avatar:
+      "https://img.freepik.com/free-photo/woman-with-long-hair-yellow-hoodie-with-word-music-it_1340-39068.jpg",
+    name: "Simonette Lindermann",
+    review:
+      "Mind-blowing discovery! Changed my routine. Essential for everyone. Can't imagine life without it!",
+  },
+  {
+    avatar:
+      "https://img.freepik.com/free-photo/close-up-portrait-young-bearded-man-white-shirt-jacket-posing-camera-with-broad-smile-isolated-gray_171337-629.jpg",
+    name: "Merilee Beal",
+    review:
+      "Unbelievable gem! Altered my life. A must-have now. Wholeheartedly advise it to everyone.",
+  },
+  {
+    avatar:
+      "https://img.freepik.com/free-photo/handsome-african-guy-with-stylish-haircut-taking-photo-digital-camera_171337-1345.jpg",
+    name: "Suzi Lankester",
+    review:
+      "Phenomenal addition! Completely transformed my days. Strongly endorse it for all!",
+  },
+  {
+    avatar:
+      "https://img.freepik.com/free-photo/pretty-smiling-joyfully-female-with-fair-hair-dressed-casually-looking-with-satisfaction_176420-15187.jpg",
+    name: "Gaston Cunnow",
+    review: "Amazing product! It changed my life. Can't live without it now.",
+  },
+  {
+    avatar:
+      "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg",
+    name: "Marys Lobb",
+    review:
+      "Life-altering find! Indispensable now. Enthusiastically suggest to all.",
+  },
+];
 
-const Testimonials = () => {
+export default function TestimonialSlider() {
   return (
-    <>
-      <div className="">
-        <div className="bg-slate-700 relative w-full h-[800px]">
-          <div className=" absolute z-20 top-28 lg:top-20 right-4 lg:right-32 w-11/12 lg:w-3/4 bg-gray-600 rounded-lg p-4 lg:p-10">
-            <div className="text-center mb-10">
-              <h1 className="text-white text-2xl font-sans font-bold">
-                Testimonials
-              </h1>
-              <h1 className="text-2xl lg:text-4xl font-sans font-bold text-white">
-                What our clients say
-              </h1>
-            </div>
-            <Swiper
-              cssMode={true}
-              navigation={true}
-              pagination={true}
-              mousewheel={true}
-              keyboard={true}
-              modules={[Navigation]}
-              className="mySwiper"
-            >
-              <SwiperSlide>
-                <div className=" w-3/2 h-96 pt-6 pb-10">
-                  <div>
-                    <div className=" w-full mx-auto ms-28 lg:ms-96">
-                      <div className="lg:flex gap-6 items-center">
-                        <div className="avatar">
-                          <motion.div
-                            whileHover={{
-                              scale: 1.5,
-                              textShadow: "0px 0px 8px rgb(255,255,255)",
-                              boxShadow: "0px 0px 8px rgb(0,0,153)",
-                            }}
-                            className="w-12 lg:w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
-                          >
-                            <img
-                              src="https://i.ibb.co.com/Z1t4TWR/michael-dam-m-EZ3-Po-FGs-k-unsplash.jpg"
-                              alt="user1"
-                            />
-                          </motion.div>
-                        </div>
-                        <div>
-                          <h1 className="text-2xl font-sans font-bold text-white">
-                            Shubas Hridoy
-                          </h1>
-                          <p className="text-white">UI/UX</p>
-                        </div>
-                      </div>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#1e3a8a] to-[#0f172a] py-16 px-4">
+      <div className="w-full max-w-7xl ps-10">
+        <h2 className="text-4xl font-bold text-center text-white mb-12">
+          What Our Clients Say
+        </h2>
 
-                      <div className="my-7 lg:ms-12">
-                        <FaQuoteLeft className="w-14 h-9"></FaQuoteLeft>
-                      </div>
-                    </div>
-                    <div className="text-center px-3 text-xs lg:text-xl lg:px-10 text-slate-300">
-                      <p>
-                        I am very happy to get to know that you have taken such
-                        initiative that fosters the curiosity for innovative
-                        possibilities. Keep doing. All the best
-                      </p>
-                    </div>
-                  </div>
+        {/* Swiper Slider */}
+        <Swiper
+          effect="coverflow"
+          grabCursor={true}
+          centeredSlides={true}
+          slidesPerView="auto"
+          loop={true}
+          spaceBetween={20}
+          // autoplay={{ delay: 2500, disableOnInteraction: false }}
+          // pagination={{ clickable: true }}
+          modules={[Pagination, Autoplay, EffectCoverflow]}
+          coverflowEffect={{
+            rotate: 0,
+            stretch: 0,
+            depth: 300,
+            modifier: 1,
+            slideShadows: true,
+          }}
+          className="w-full"
+        >
+          {testimonials.map((item, index) => (
+            <SwiperSlide key={index} className="max-w-xs w-full mx-auto">
+              <div className="bg-gradient-to-b from-[#2d4b8e] to-[#1e3a8a] shadow-lg rounded-xl overflow-hidden p-6 text-center text-white transition duration-300 hover:shadow-xl">
+                {/* Avatar */}
+                <div className="flex justify-center mb-6">
+                  <img
+                    src={item.avatar}
+                    alt={item.name}
+                    className="w-24 h-24 object-cover rounded-full border-4 border-yellow-400"
+                  />
                 </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className=" w-3/2 h-96 py-12">
-                  <div>
-                    <div className=" w-full mx-auto ms-28 lg:ms-96">
-                      <div className="lg:flex gap-6 items-center">
-                        <div className="avatar">
-                          <motion.div
-                            whileHover={{
-                              scale: 1.5,
-                              textShadow: "0px 0px 8px rgb(255,255,255)",
-                              boxShadow: "0px 0px 8px rgb(0,0,153)",
-                            }}
-                            className="w-12 lg:w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
-                          >
-                            <img
-                              src="https://i.ibb.co.com/XSpRSLP/alex-suprun-1-JGHAAdb-L-Y-unsplash.jpg"
-                              alt="user1"
-                            />
-                          </motion.div>
-                        </div>
-                        <div>
-                          <h1 className="text-2xl font-sans font-bold text-white">
-                            Badhon Ck
-                          </h1>
-                          <p className="text-white">FullStack</p>
-                        </div>
-                      </div>
 
-                      <div className="my-7 lg:ms-12">
-                        <FaQuoteLeft className="w-14 h-9"></FaQuoteLeft>
-                      </div>
-                    </div>
-                    <div className="text-center px-3 text-xs lg:text-xl lg:px-10 text-slate-300">
-                      <p>
-                        I am very happy to get to know that you have taken such
-                        initiative that fosters the curiosity for innovative
-                        possibilities. Keep doing. All the best
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className=" w-3/2 h-96 py-12">
-                  <div>
-                    <div className=" w-full mx-auto ms-28 lg:ms-96">
-                      <div className="lg:flex gap-6 items-center">
-                        <div className="avatar">
-                          <motion.div
-                            whileHover={{
-                              scale: 1.5,
-                              textShadow: "0px 0px 8px rgb(255,255,255)",
-                              boxShadow: "0px 0px 8px rgb(0,0,153)",
-                            }}
-                            className="w-12 lg:w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
-                          >
-                            <img
-                              src="https://i.ibb.co.com/tz1zsTW/julian-wan-2-Ed-IX-O2lk-I-unsplash.jpg"
-                              alt="user1"
-                            />
-                          </motion.div>
-                        </div>
-                        <div>
-                          <h1 className="text-2xl font-sans font-bold text-white">
-                            Shiti Roy
-                          </h1>
-                          <p className="text-white">Frontend Designer</p>
-                        </div>
-                      </div>
+                {/* Name & Review */}
+                <h3 className="text-lg font-semibold mb-3">{item.name}</h3>
+                <p className="text-sm opacity-80">{item.review}</p>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
 
-                      <div className="my-7 lg:ms-12">
-                        <FaQuoteLeft className="w-14 h-9"></FaQuoteLeft>
-                      </div>
-                    </div>
-                    <div className="text-center px-3 text-xs lg:text-xl lg:px-10 text-slate-300">
-                      <p>
-                        I am very happy to get to know that you have taken such
-                        initiative that fosters the curiosity for innovative
-                        possibilities. Keep doing. All the best
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-            </Swiper>
-          </div>
-        </div>
+        {/* Pagination */}
+        <div className="swiper-pagination mt-8 text-center"></div>
       </div>
-    </>
+    </div>
   );
-};
-
-export default Testimonials;
+}

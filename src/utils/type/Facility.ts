@@ -1,4 +1,5 @@
 export interface TFacility {
+    
     _id?: string
     name: string
     description: string
@@ -9,5 +10,6 @@ export interface TFacility {
     isDeleted?: boolean
     createdAt?: string
     updatedAt?: string
+    category?: string
     __v?: number
   }
